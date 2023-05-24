@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useSignUp } from "../composables/auth";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -8,7 +8,6 @@ const email = ref("");
 const password = ref("");
 
 const { error, isPending, signUp } = useSignUp();
-error.value = null;
 async function sign() {
   await signUp(email.value, password.value, displayName.value);
   if (!error.value) {
@@ -20,6 +19,9 @@ async function sign() {
     });
   }
 }
+onMounted(() => {
+  error.value = null;
+});
 </script>
 <template>
   <div class="body">
@@ -59,7 +61,9 @@ async function sign() {
           <input v-model="password" required type="password" name="password" />
         </div>
         <ul class="text-red-500 ml-3 text-sm mb-2" v-if="error">
-          <li v-for="er in error.split(',')" :key="er">{{ er }}</li>
+          <li v-for="er in error.split(',')" :key="er">
+            {{ er.charAt(0).toUpperCase() + er.slice(1) }}
+          </li>
         </ul>
 
         <ul v-else class="text-gray-500 ml-3 text-sm mb-2">

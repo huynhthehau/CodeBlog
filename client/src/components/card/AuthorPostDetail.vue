@@ -1,16 +1,14 @@
 <script setup>
 import { onMounted, computed, ref } from "vue";
 import { URL_AVATAR } from "../../constants/index";
-import { useStore } from "vuex";
 import FollowBtn from "../profile/FollowBtn.vue";
-
+import { useUser } from "../../composables/user";
+const { error, isPending, getUser } = useUser();
 const props = defineProps(["authorId"]);
-const author = computed(() => store.getters["users/getUser"]);
-const store = useStore();
-async function fetchData() {
-  await store.dispatch("users/setUser", { userId: props.authorId });
-}
-onMounted(fetchData);
+const author = ref(null);
+onMounted(async () => {
+  author.value = await getUser({ userId: props.authorId });
+});
 </script>
 <template>
   <div

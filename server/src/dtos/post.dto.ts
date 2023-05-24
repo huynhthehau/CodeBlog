@@ -18,7 +18,7 @@ export class CreatePostDto {
   @Length(15)
   public title: string;
   @IsString()
-  @Length(15)
+  @Length(22)
   public content: string;
   @IsOptional()
   @IsString()

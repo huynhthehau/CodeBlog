@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRecovery } from "../composables/auth";
 const { error, isPending, accountRecovery } = useRecovery();
 const email = ref("");
@@ -7,6 +7,10 @@ async function recovery() {
   const res = await accountRecovery(email.value);
   error.value = res.msg;
 }
+
+onMounted(() => {
+  error.value = null;
+});
 </script>
 <template>
   <div class="body">

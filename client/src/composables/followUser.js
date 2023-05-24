@@ -1,5 +1,7 @@
 import { instance, instanceWithAccess } from "../configs/axios";
-
+import { ref } from "vue";
+const error = ref(null);
+const isPending = ref(false);
 async function follow(followingId) {
   try {
     const res = await instanceWithAccess.get("/follow_user/", {
@@ -18,8 +20,8 @@ async function follow(followingId) {
         userId: followingId,
       });
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    error.value = err.response.data.message;
   }
 }
 export function useFollow() {

@@ -5,6 +5,7 @@ import Author from "../components/card/author.vue";
 const store = useStore();
 const search = ref("");
 const page = ref(1);
+const limit = ref(10);
 const user = computed(() => store.getters["auth/getUser"]);
 
 const listUsers = computed(() => store.getters["users/getAllUsers"]);
@@ -13,6 +14,7 @@ async function fetchData() {
   if (user.value) await store.dispatch("auth/setUsersFollowing");
   await store.dispatch("users/filterUser", {
     sort: "follower",
+    limit: limit.value,
     current_page: page.value,
     search: search.value,
   });
@@ -20,7 +22,7 @@ async function fetchData() {
 watch(page, async () => {
   await store.dispatch("users/filterUser", {
     sort: "follower",
-
+    limit: limit.value,
     current_page: page.value,
     search: search.value,
   });
@@ -29,7 +31,7 @@ watch(search, async () => {
   page.value = 1;
   await store.dispatch("users/filterUser", {
     sort: "follower",
-
+    limit: limit.value,
     current_page: page.value,
     search: search.value,
   });
@@ -115,7 +117,7 @@ onMounted(fetchData);
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   margin-left: calc(-1 * var(--spacing));
   padding: 32px 0;
   background-color: #fff;

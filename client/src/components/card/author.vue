@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import FollowBtn from "../profile/FollowBtn.vue";
 
 import { URL_AVATAR } from "../../constants";
@@ -19,19 +19,17 @@ async function fetchData() {
 </script>
 
 <template>
-  <!-- Card -->
   <div
     class="max-w-sm w-72 bg-white shadow-lg rounded-sm border border-gray-200 m-1"
   >
     <div class="flex flex-col h-full">
-      <!-- Card top -->
       <div class="flex-grow p-5">
         <div class="flex justify-between items-start">
           <header>
             <div class="flex items-center mb-2">
               <img
                 :src="URL_AVATAR + author.avatar"
-                class="w-14 h-14 border rounded-full bg-gray-500 border-gray-300 mr-3"
+                class="w-14 h-14 border bg-gray-500 border-gray-300 mr-3"
                 :alt="author.display_name"
               />
               <div class="mt-1 pr-1">
@@ -65,9 +63,7 @@ async function fetchData() {
             </div>
           </header>
 
-          <!-- Menu button -->
         </div>
-        <!-- Bio -->
         <div v-if="author.about" class="mt-2 paragraph">
           <div class="text-sm">
             {{ author.about }}
@@ -101,4 +97,65 @@ async function fetchData() {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-</style>
+</style> -->
+
+<script setup>
+import FollowBtn from "../profile/FollowBtn.vue";
+
+import { URL_AVATAR } from "../../constants";
+import { useStore } from "vuex";
+const store = useStore();
+const props = defineProps(["author", "page", "search"]);
+async function fetchData() {
+  await store.dispatch("users/filterUser", {
+    sort: "follower",
+    limit: 10,
+    current_page: props.page,
+    search: props.search,
+  });
+}
+</script>
+<template>
+  <div
+    v-if="author"
+    class="max-w-md m-5 z-40 p-3 min-w-fit shadow-lg rounded-lg sm:flex sm:space-x-6 bg-gray-50 text-gray-800 left-14 -bottom-20"
+  >
+    <div class="flex-shrink-0 w-12 mb-6 h-12 sm:h-28 sm:w-28 sm:mb-0">
+      <img
+        :src="URL_AVATAR + author.avatar"
+        :alt="author.display_name"
+        class="object-cover object-center w-full h-full rounded bg-gray-500"
+      />
+    </div>
+    <div class="flex flex-col space-y-4 w-52">
+      <div>
+        <h2 class="text-2xl font-semibold">
+          <router-link
+            :to="{
+              name: 'profile',
+              params: {
+                id: author._id,
+              },
+            }"
+            >{{ author.display_name }}</router-link
+          >
+        </h2>
+        <span class="flex items-center space-x-2">
+          <span class="text-gray-600">{{ author.email }}</span>
+        </span>
+        <div class="mt-1 flex flex-row justify-between text-gray-600">
+          <p class="mr-1">
+            <b>{{ author.posts }}</b> posts
+          </p>
+          <p class="mr-1">
+            <b>{{ author.followers }}</b> followers
+          </p>
+        </div>
+        <FollowBtn
+          :followUserId="author._id"
+          @followSubmit="fetchData"
+        ></FollowBtn>
+      </div>
+    </div>
+  </div>
+</template>

@@ -100,7 +100,7 @@ onMounted(fetchData);
 const isDeleted = ref(false);
 setTimeout(() => {
   isDeleted.value = true;
-}, 15000);
+}, 2000);
 </script>
 <template>
   <main v-if="post">

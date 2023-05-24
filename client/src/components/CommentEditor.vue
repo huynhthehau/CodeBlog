@@ -16,7 +16,7 @@ const user = computed(() => store.getters["auth/getUser"]);
 const { createComment } = useComment();
 const props = defineProps(["inReplyToComment", "inReplyToUser", "limit"]);
 const emit = defineEmits(["commented"]);
-const content = ref("  ");
+const content = ref("");
 if (props.inReplyToUser)
   content.value = "@" + props.inReplyToUser.split("@")[0] + " ";
 async function postComment() {
@@ -25,32 +25,34 @@ async function postComment() {
       isShow: true,
     });
   } else {
-    const comment = await createComment(
-      props.inReplyToComment,
-      props.inReplyToUser,
-      postId.value,
-      content.value
-    );
-    if (comment) {
-      await store.dispatch("notifications/createNewCommentNotification", {
-        commentId: comment._id,
-        link: "/post/" + postId.value + "?commentId=" + comment._id,
+    if (content.value.replace(/\s/g, "").length >= 8) {
+      const comment = await createComment(
+        props.inReplyToComment,
+        props.inReplyToUser,
+        postId.value,
+        content.value
+      );
+      if (comment) {
+        await store.dispatch("notifications/createNewCommentNotification", {
+          commentId: comment._id,
+          link: "/post/" + postId.value + "?commentId=" + comment._id,
+        });
+      }
+      content.value = null;
+      emit("commented");
+      await store.dispatch("comments/setCurrent_page", {
+        current_page: 1,
+        limit: props.limit || 5,
+        postId: postId.value,
       });
     }
-    content.value = " ";
-    emit("commented");
-    await store.dispatch("comments/setCurrent_page", {
-      current_page: 1,
-      limit: props.limit || 5,
-      postId: postId.value,
-    });
   }
 }
 var toolbarOptions = [
   ["bold", "italic", "underline"],
   ["blockquote", "code-block"],
 
-  [{ list: "ordered" }, { list: "bullet" }],
+  // [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }],
 ];
 </script>

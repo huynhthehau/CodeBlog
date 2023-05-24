@@ -1,8 +1,10 @@
 <script setup>
+import ImagesOfUser from "./publish_post/ImagesOfUser.vue";
+import { URL_IMG } from "../constants/index";
+
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { instance, instanceWithAccess } from "../configs/axios";
-import { URL_IMG } from "../constants";
+import { instanceWithAccess } from "../configs/axios";
 const emit = defineEmits(["sendImage"]);
 const store = useStore();
 const images = computed(() => store.getters["auth/getUserImages"]);
@@ -64,7 +66,7 @@ onMounted(fetchData);
         ></path>
       </svg>
       <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-        <span class="font-semibold">Click to upload</span> or drag and drop
+        <span class="font-semibold">Click to upload</span>
       </p>
       <p class="text-xs text-gray-500 dark:text-gray-400">
         SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -72,22 +74,22 @@ onMounted(fetchData);
     </div>
     <img v-else :src="URL_IMG + imageSrc" class="object-cover h-64" alt="#" />
   </div>
-  <div v-if="isDisplay" class="modal">
-    <div class="body">
+  <div v-if="isDisplay" class="modal bg-gray-700 bg-opacity-30">
+    <div class="body rounded-md">
       <h1
-        class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-1xl lg:text-2xl dark:text-white"
+        class="m-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-1xl lg:text-2xl dark:text-white"
       >
-        Ảnh đã tải lên từ các bài viết trước.
+        Your images
       </h1>
       <div class="list-images">
-        <img
-          class="images"
-          v-for="img in images"
-          :key="img._id"
-          :src="URL_IMG + img.name"
-          @click="submitImageFunc(img.name)"
-          alt="#"
-        />
+        <div class="images" v-for="img in images" :key="img._id">
+          <!-- <img :src="URL_IMG + img.name" @click="submitImageFunc(img.name)" alt="#" /> -->
+          <ImagesOfUser
+            :img="img"
+            @submitImageFunc="submitImageFunc"
+            @deleteImages="fetchData"
+          ></ImagesOfUser>
+        </div>
       </div>
       <label
         for="dropzone-file"
@@ -95,7 +97,7 @@ onMounted(fetchData);
       >
         <div class="flex flex-col items-center justify-center pt-5 pb-6">
           <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span class="font-semibold">Click to upload</span> or drag and drop
+            <span class="font-semibold">Click to upload</span>
           </p>
         </div>
         <input

@@ -112,7 +112,11 @@ async function sign() {
             type="password"
             name="password"
           />
-          <p class="error" v-if="error">{{ error }}</p>
+          <ul class="text-red-500 ml-3 text-sm mb-2" v-if="error">
+            <li v-for="er in error.split(',')" :key="er">
+              {{ er.charAt(0).toUpperCase() + er.slice(1) }}
+            </li>
+          </ul>
         </div>
         <div class="row mt-3">
           <button v-if="isPending">
@@ -184,7 +188,7 @@ p.error {
 .formLogin {
   background-color: #fff;
   width: 100%;
-  height: 230px;
+  height: 250px;
   display: flex;
   justify-content: left;
   flex-direction: column;

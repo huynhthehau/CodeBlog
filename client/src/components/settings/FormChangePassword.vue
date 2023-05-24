@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useChangePassword } from "../../composables/auth";
 import eventBus from "../../utils/evenBus";
 import { useRouter } from "vue-router";
@@ -33,6 +33,9 @@ async function changePasswordSubmit() {
     eventBus.emit("showChangesPasswordSuccess");
   }
 }
+onMounted(() => {
+  error.value = "";
+});
 </script>
 <template>
   <h1 class="my-5 text-2xl">Change Password</h1>
@@ -94,7 +97,9 @@ async function changePasswordSubmit() {
         />
       </div>
       <ul v-if="error" class="text-red-500 ml-3 text-sm mb-2">
-        <li v-for="er in error.split(',')" :key="er">{{ er }}</li>
+        <li v-for="er in error.split(',')" :key="er">
+          {{ er.charAt(0).toUpperCase() + er.slice(1) }}
+        </li>
       </ul>
       <ul v-else class="text-gray-500 ml-3 text-sm mb-2">
         <li>6-25 characters</li>

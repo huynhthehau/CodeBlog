@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { URL_AVATAR } from "../../constants/index";
 import { useChangeProfile } from "../../composables/auth";
 import { useRouter } from "vue-router";
@@ -49,6 +49,9 @@ async function changeProfileSubmit() {
     formData.delete("oldAvatar");
   }
 }
+onMounted(() => {
+  error.value = "";
+});
 </script>
 <template>
   <h1 class="my-5 text-2xl">Public information</h1>

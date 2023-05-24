@@ -28,6 +28,22 @@ export default class ImageController {
     }
   };
 
+  public deleteImage = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { id } = req.params;
+      const userId = req.user._id;
+
+      await this.imageService.deleteImage(id, userId);
+      res.status(200).json({ msg: "deleted" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getImagesByUserId = async (
     req: RequestWithUser,
     res: Response,

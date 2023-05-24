@@ -55,7 +55,7 @@ async function editStatusOfPost() {
 <template>
   <div
     @click="closeModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-300 bg-opacity-10"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-700 bg-opacity-30"
   >
     <div class="relative w-full max-w-md max-h-full">
       <div class="modal relative bg-white rounded-lg shadow dark:bg-gray-700">
