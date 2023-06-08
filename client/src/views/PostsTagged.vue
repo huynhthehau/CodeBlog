@@ -67,7 +67,7 @@ onMounted(fetchData);
     <div class="flex items-center justify-between">
       <div class="flex">
         <h1 class="text-xl font-bold text-gray-700 md:text-2xl">
-          Posts tagged [{{ tagDetail.title }}]({{ paginationOfPosts.total }})
+          Posts [{{ tagDetail.title }}]
         </h1>
         <FollowTagBtn :followTagId="tagDetail._id"></FollowTagBtn>
       </div>

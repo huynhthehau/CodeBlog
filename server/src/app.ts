@@ -22,7 +22,7 @@ export const io = new Server(server, {
 });
 
 require("dotenv").config();
-const { MONGODB_URL } = process.env;
+const { MONGODB_URL, MONGODB_URL_SHARDING } = process.env;
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -36,7 +36,7 @@ mongoose.set({
   strictQuery: false,
 });
 mongoose
-  .connect(MONGODB_URL)
+  .connect(MONGODB_URL_SHARDING)
   .then(console.log("Connected"))
   .catch((err: any) => console.log("don't connect"));
 

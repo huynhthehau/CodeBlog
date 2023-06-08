@@ -127,7 +127,7 @@ export default class NotificationController {
         body: { link },
       } = req;
       const { io } = res;
-      if (!comment.postId && !comment.inReplyToComment) {
+      if (!comment.postId) {
         return res.status(400).json({ msg: "Missing comment information" });
       }
 
@@ -138,7 +138,7 @@ export default class NotificationController {
         content: `<p><span style="color:#709bd0;">${user.display_name}</span> `,
       };
 
-      if (comment.postId) {
+      if (!comment.inReplyToComment) {
         const post: Post = await this.postService.findPostById(
           comment.postId + ""
         );
@@ -157,7 +157,7 @@ export default class NotificationController {
             msg: "create notification when new comment",
           });
         }
-      } else if (comment.inReplyToComment) {
+      } else {
         const inReplyToComment = await this.commentsService.findCommentById(
           comment.inReplyToComment + ""
         );

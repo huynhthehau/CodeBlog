@@ -50,9 +50,14 @@ h6 {
 }
 
 .main-wrapper :deep() ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+
   margin-bottom: 1rem;
 }
 .main-wrapper :deep() ol {
+  list-style-type: decimal;
+  margin-left: 2rem;
   margin-bottom: 1rem;
 }
 

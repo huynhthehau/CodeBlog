@@ -7,7 +7,10 @@ export function getTimeSincePost(postDate) {
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
-  const weeks = Math.floor(days / 7);
+  // const weeks =
+  //   Math.floor(days / 7) == 4 && days % 7 <= 3 && days % 7 > 0
+  //     ? Math.floor(days / 7) + 1
+  //     : Math.floor(days / 7);
   const months = Math.floor(days / 30);
   const years = Math.floor(days / 365);
 
@@ -17,11 +20,13 @@ export function getTimeSincePost(postDate) {
     return `${minutes} minutes ago`;
   } else if (hours < 24) {
     return `${hours} hours ago`;
-  } else if (days < 7) {
+  } else if (days < 30) {
     return `${days} days ago`;
-  } else if (weeks < 4) {
-    return `${weeks} weeks ago`;
-  } else if (months < 12) {
+  }
+  //  else if (weeks < 5) {
+  //   return `${weeks} weeks ago`;
+  // }
+  else if (months < 12) {
     return `${months} months ago`;
   } else {
     return `${years} years ago`;

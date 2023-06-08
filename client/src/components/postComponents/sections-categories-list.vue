@@ -34,8 +34,8 @@ onMounted(fetchData);
             id: tag._id,
           },
         }"
-        >{{ tag.title }} #{{ tag.posts }}</router-link
-      >
+        >{{ tag.title }}
+      </router-link>
     </div>
   </div>
   <div

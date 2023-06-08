@@ -38,21 +38,19 @@ async function postComment() {
           link: "/post/" + postId.value + "?commentId=" + comment._id,
         });
       }
-      content.value = null;
       emit("commented");
       await store.dispatch("comments/setCurrent_page", {
         current_page: 1,
         limit: props.limit || 5,
         postId: postId.value,
       });
+      content.value = " ";
     }
   }
 }
 var toolbarOptions = [
   ["bold", "italic", "underline"],
   ["blockquote", "code-block"],
-
-  // [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }],
 ];
 </script>
